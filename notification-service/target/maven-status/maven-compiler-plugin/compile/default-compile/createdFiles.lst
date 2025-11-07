@@ -1,0 +1,10 @@
+com\shopease\notification\model\Notification.class
+com\shopease\notification\dto\NotificationRequest$NotificationRequestBuilder.class
+com\shopease\notification\dto\NotificationRequest.class
+com\shopease\notification\model\Notification$NotificationBuilder.class
+com\shopease\notification\controller\NotificationController.class
+com\shopease\notification\service\NotificationService.class
+com\shopease\notification\NotificationServiceApplication.class
+com\shopease\notification\dto\NotificationResponse.class
+com\shopease\notification\dto\NotificationResponse$NotificationResponseBuilder.class
+com\shopease\notification\repository\NotificationRepository.class

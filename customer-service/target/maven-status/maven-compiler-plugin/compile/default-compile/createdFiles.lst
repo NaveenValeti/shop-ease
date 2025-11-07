@@ -1,0 +1,10 @@
+com\shopease\customer\service\CustomerService.class
+com\shopease\customer\CustomerServiceApplication.class
+com\shopease\customer\dto\CustomerRequest.class
+com\shopease\customer\model\Customer.class
+com\shopease\customer\dto\CustomerResponse$CustomerResponseBuilder.class
+com\shopease\customer\dto\CustomerRequest$CustomerRequestBuilder.class
+com\shopease\customer\model\Customer$CustomerBuilder.class
+com\shopease\customer\repository\CustomerRepository.class
+com\shopease\customer\controller\CustomerController.class
+com\shopease\customer\dto\CustomerResponse.class
