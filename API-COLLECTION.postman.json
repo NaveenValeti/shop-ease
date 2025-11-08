@@ -1,0 +1,393 @@
+{
+  "info": {
+    "name": "ShopEase Microservices API Collection - Updated",
+    "description": "Complete API collection for testing ShopEase platform with current working services",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "✅ Working Services",
+      "description": "Fully functional services",
+      "item": [
+        {
+          "name": "Product Service - Create Product (Via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gaming Laptop\",\n  \"description\": \"High-performance gaming laptop\",\n  \"price\": 1299.99,\n  \"quantity\": 10\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/products",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "products"]
+            }
+          }
+        },
+        {
+          "name": "Product Service - Create MacBook Pro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"MacBook Pro\",\n  \"description\": \"Apple MacBook Pro 16-inch\",\n  \"price\": 2499.99,\n  \"quantity\": 5\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/products",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "products"]
+            }
+          }
+        },
+        {
+          "name": "Product Service - Create iPhone 15 Pro",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"iPhone 15 Pro\",\n  \"description\": \"Latest iPhone with titanium design\",\n  \"price\": 1199.99,\n  \"quantity\": 8\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/products",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "products"]
+            }
+          }
+        },
+        {
+          "name": "Product Service - Direct Create",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Dell XPS 13\",\n  \"description\": \"Ultrabook laptop\",\n  \"price\": 1399.99,\n  \"quantity\": 5\n}"
+            },
+            "url": {
+              "raw": "{{product_url}}/api/products",
+              "host": ["{{product_url}}"],
+              "path": ["api", "products"]
+            }
+          }
+        },
+        {
+          "name": "Product Service - Get All Products (Direct)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{product_url}}/api/products",
+              "host": ["{{product_url}}"],
+              "path": ["api", "products"]
+            }
+          }
+        },
+        {
+          "name": "Product Service - Get Product by ID (Direct)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{product_url}}/api/products/1",
+              "host": ["{{product_url}}"],
+              "path": ["api", "products", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "⚠️ Services Starting",
+      "description": "Services that are initializing",
+      "item": [
+        {
+          "name": "Order Service - Create Order (Via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/orders",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Order Service - Create Order (Direct)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productId\": 1,\n  \"quantity\": 2\n}"
+            },
+            "url": {
+              "raw": "{{order_url}}/api/orders",
+              "host": ["{{order_url}}"],
+              "path": ["api", "orders"]
+            }
+          }
+        },
+        {
+          "name": "Payment Service - Process Payment (Via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": 1,\n  \"amount\": 1299.99,\n  \"paymentMode\": \"CREDIT_CARD\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/payments",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "payments"]
+            }
+          }
+        },
+        {
+          "name": "Payment Service - Process Payment (Direct)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": 1,\n  \"amount\": 1299.99,\n  \"paymentMode\": \"CREDIT_CARD\"\n}"
+            },
+            "url": {
+              "raw": "{{payment_url}}/api/payments",
+              "host": ["{{payment_url}}"],
+              "path": ["api", "payments"]
+            }
+          }
+        },
+        {
+          "name": "Customer Service - Create Customer (Via Gateway)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john.doe@example.com\",\n  \"phone\": \"+1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/customers",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "customers"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🔍 Health Checks & Monitoring",
+      "description": "Service health and monitoring endpoints",
+      "item": [
+        {
+          "name": "API Gateway Health",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gateway_url}}/actuator/health",
+              "host": ["{{gateway_url}}"],
+              "path": ["actuator", "health"]
+            }
+          }
+        },
+        {
+          "name": "Product Service Health",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{product_url}}/actuator/health",
+              "host": ["{{product_url}}"],
+              "path": ["actuator", "health"]
+            }
+          }
+        },
+        {
+          "name": "Discovery Server Dashboard",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{discovery_url}}",
+              "host": ["{{discovery_url}}"]
+            }
+          }
+        },
+        {
+          "name": "Discovery Server - Registered Apps",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{discovery_url}}/eureka/apps",
+              "host": ["{{discovery_url}}"],
+              "path": ["eureka", "apps"]
+            }
+          }
+        },
+        {
+          "name": "API Gateway Routes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gateway_url}}/actuator/gateway/routes",
+              "host": ["{{gateway_url}}"],
+              "path": ["actuator", "gateway", "routes"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "🚫 Error Testing",
+      "description": "Test error handling and validation",
+      "item": [
+        {
+          "name": "Invalid Product Creation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"price\": -10\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/products",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "products"]
+            }
+          }
+        },
+        {
+          "name": "Non-existent Product",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{gateway_url}}/api/products/999",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "products", "999"]
+            }
+          }
+        },
+        {
+          "name": "Payment Exceeds Limit",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": 1,\n  \"amount\": 15000.00,\n  \"paymentMode\": \"CREDIT_CARD\"\n}"
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/payments",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "payments"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "gateway_url",
+      "value": "http://localhost:8765",
+      "type": "string"
+    },
+    {
+      "key": "product_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "order_url",
+      "value": "http://localhost:8081",
+      "type": "string"
+    },
+    {
+      "key": "payment_url",
+      "value": "http://localhost:8082",
+      "type": "string"
+    },
+    {
+      "key": "customer_url",
+      "value": "http://localhost:8084",
+      "type": "string"
+    },
+    {
+      "key": "discovery_url",
+      "value": "http://localhost:8761",
+      "type": "string"
+    },
+    {
+      "key": "config_url",
+      "value": "http://localhost:8888",
+      "type": "string"
+    },
+    {
+      "key": "security_url",
+      "value": "http://localhost:8086",
+      "type": "string"
+    }
+  ]
+}

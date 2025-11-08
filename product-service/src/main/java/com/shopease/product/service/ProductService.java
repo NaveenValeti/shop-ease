@@ -4,6 +4,8 @@ import com.shopease.product.dto.ProductRequest;
 import com.shopease.product.dto.ProductResponse;
 import com.shopease.product.model.Product;
 import com.shopease.product.repository.ProductRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,7 @@ public class ProductService {
         return mapToResponse(savedProduct);
     }
 
+    @Cacheable(value = "products")
     public List<ProductResponse> getAllProducts(){
         return productRepository.findAll()
                 .stream()
@@ -37,6 +40,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "product", key = "#id")
     public ProductResponse getProductById(Long id){
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id: "+id));
@@ -45,6 +49,7 @@ public class ProductService {
 
     //Delete
 
+    @CacheEvict(value = {"product", "products"}, key = "#id")
     public void deleteProduct(Long id){
         productRepository.deleteById(id);
     }

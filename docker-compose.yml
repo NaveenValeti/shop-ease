@@ -1,16 +1,99 @@
-version: "3.9"
-
 services:
-  mysql:
+  # Product Service Database
+  product-mysql:
     image: mysql:8.0
-    container_name: mysql-container
+    container_name: product-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: product_db
     ports:
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - product_mysql_data:/var/lib/mysql
+    networks:
+      - shopease-network
+
+  # Order Service Database
+  order-mysql:
+    image: mysql:8.0
+    container_name: order-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: order_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - order_mysql_data:/var/lib/mysql
+    networks:
+      - shopease-network
+
+  # Payment Service Database
+  payment-mysql:
+    image: mysql:8.0
+    container_name: payment-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: payment_db
+    ports:
+      - "3308:3306"
+    volumes:
+      - payment_mysql_data:/var/lib/mysql
+    networks:
+      - shopease-network
+
+  # Customer Service Database
+  customer-mysql:
+    image: mysql:8.0
+    container_name: customer-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: customer_db
+    ports:
+      - "3309:3306"
+    volumes:
+      - customer_mysql_data:/var/lib/mysql
+    networks:
+      - shopease-network
+
+  # Notification Service Database
+  notification-mysql:
+    image: mysql:8.0
+    container_name: notification-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: notification_db
+    ports:
+      - "3310:3306"
+    volumes:
+      - notification_mysql_data:/var/lib/mysql
+    networks:
+      - shopease-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis-container
+    ports:
+      - "6379:6379"
+    networks:
+      - shopease-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq-container
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    networks:
+      - shopease-network
+
+  config-server:
+    build: ./config-server
+    container_name: config-server
+    ports:
+      - "8888:8888"
     networks:
       - shopease-network
 
@@ -19,6 +102,28 @@ services:
     container_name: discovery-server
     ports:
       - "8761:8761"
+    depends_on:
+      - config-server
+    networks:
+      - shopease-network
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8765:8765"
+    depends_on:
+      - discovery-server
+    networks:
+      - shopease-network
+
+  security-service:
+    build: ./security-service
+    container_name: security-service
+    ports:
+      - "8086:8086"
+    depends_on:
+      - discovery-server
     networks:
       - shopease-network
 
@@ -28,11 +133,14 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
+      SPRING_DATASOURCE_URL: jdbc:mysql://product-mysql:3306/product_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
     depends_on:
-      - mysql
+      - product-mysql
+      - redis
       - discovery-server
     networks:
       - shopease-network
@@ -43,12 +151,12 @@ services:
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
+      SPRING_DATASOURCE_URL: jdbc:mysql://order-mysql:3306/order_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       PRODUCT_SERVICE_URL: http://product-service:8080
     depends_on:
-      - mysql
+      - order-mysql
       - product-service
       - discovery-server
     networks:
@@ -60,26 +168,11 @@ services:
     ports:
       - "8082:8082"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
+      SPRING_DATASOURCE_URL: jdbc:mysql://payment-mysql:3306/payment_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
     depends_on:
-      - mysql
-      - discovery-server
-    networks:
-      - shopease-network
-
-  notification-service:
-    build: ./notification-service
-    container_name: notification-service
-    ports:
-      - "8083:8083"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
-    depends_on:
-      - mysql
+      - payment-mysql
       - discovery-server
     networks:
       - shopease-network
@@ -90,17 +183,36 @@ services:
     ports:
       - "8084:8084"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/product_db
+      SPRING_DATASOURCE_URL: jdbc:mysql://customer-mysql:3306/customer_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
     depends_on:
-      - mysql
+      - customer-mysql
+      - discovery-server
+    networks:
+      - shopease-network
+
+  notification-service:
+    build: ./notification-service
+    container_name: notification-service
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://notification-mysql:3306/notification_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - notification-mysql
       - discovery-server
     networks:
       - shopease-network
 
 volumes:
-  mysql_data:
+  product_mysql_data:
+  order_mysql_data:
+  payment_mysql_data:
+  customer_mysql_data:
+  notification_mysql_data:
 
 networks:
   shopease-network:

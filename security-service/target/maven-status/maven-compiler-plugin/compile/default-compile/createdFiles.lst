@@ -1,0 +1,6 @@
+com\shopease\security\AuthController$AuthResponse.class
+com\shopease\security\AuthController$LoginRequest.class
+com\shopease\security\JwtUtil.class
+com\shopease\security\JwtUtil$ClaimsResolver.class
+com\shopease\security\AuthController.class
+com\shopease\security\SecurityServiceApplication.class
