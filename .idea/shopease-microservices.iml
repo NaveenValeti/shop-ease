@@ -9,6 +9,7 @@
       <sourceFolder url="file://$MODULE_DIR$/customer-service/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/discovery-server/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/notification-service/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/security-service/src/main/java/com/shopease/security" isTestSource="false" />
     </content>
   </component>
 </module>

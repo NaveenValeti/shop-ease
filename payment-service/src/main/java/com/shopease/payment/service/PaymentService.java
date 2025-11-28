@@ -2,9 +2,11 @@ package com.shopease.payment.service;
 
 import com.shopease.payment.dto.PaymentRequest;
 import com.shopease.payment.dto.PaymentResponse;
+import com.shopease.payment.event.PaymentEvent;
 import com.shopease.payment.exception.InsufficientFundsException;
 import com.shopease.payment.exception.PaymentProcessingException;
 import com.shopease.payment.model.Payment;
+import com.shopease.payment.producer.PaymentEventProducer;
 import com.shopease.payment.repository.PaymentRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,11 @@ import java.util.UUID;
 public class PaymentService {
 
     private final PaymentRepository paymentRepository;
+    private final PaymentEventProducer paymentEventProducer;
 
-    public PaymentService(PaymentRepository paymentRepository) {
+    public PaymentService(PaymentRepository paymentRepository, PaymentEventProducer paymentEventProducer) {
         this.paymentRepository = paymentRepository;
+        this.paymentEventProducer = paymentEventProducer;
     }
 
     public PaymentResponse processPayment(PaymentRequest paymentRequest) {
@@ -45,6 +49,19 @@ public class PaymentService {
             Payment savedPayment = paymentRepository.save(payment);
             log.info("Payment processed successfully. Payment ID: {}, Reference: {}", 
                     savedPayment.getId(), referenceNumber);
+
+            // Publish payment event to Kafka
+            PaymentEvent paymentEvent = PaymentEvent.builder()
+                    .paymentId(savedPayment.getId())
+                    .orderId(savedPayment.getOrderId())
+                    .status(savedPayment.getStatus())
+                    .amount(savedPayment.getAmount())
+                    .paymentMode(savedPayment.getMode())
+                    .paymentDate(savedPayment.getPaymentDate())
+                    .referenceNumber(savedPayment.getReferenceNumber())
+                    .build();
+            
+            paymentEventProducer.publishPaymentEvent(paymentEvent);
 
             return PaymentResponse.builder()
                     .paymentId(savedPayment.getId())
